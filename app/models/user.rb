@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: {maximum: 50}
   validates :phone, presence: true, length: {maximum: 15}
-  validates_format_of :phone, :with => /\A([^[\d \-()]*$])\Z/, message: "invalid characters, try to put numbers"
+  validates_format_of :phone, :with => /\A^[\[\]\d \+\-\(\)]*$\Z/, message: "invalid symbols, avoid characters!"
 
   after_create :set_admin
 
