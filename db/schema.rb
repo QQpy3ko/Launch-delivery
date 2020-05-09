@@ -10,12 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_08_121235) do
+ActiveRecord::Schema.define(version: 2020_05_09_202514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "item_histories", force: :cascade do |t|
+    t.decimal "price"
+    t.boolean "active"
+    t.bigint "menu_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["menu_item_id"], name: "index_item_histories_on_menu_item_id"
+  end
+
+  create_table "menu_items", force: :cascade do |t|
+    t.string "title"
+    t.decimal "price"
+    t.boolean "active"
+    t.bigint "category_id", null: false
+    t.bigint "order_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_menu_items_on_category_id"
+    t.index ["order_id"], name: "index_menu_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal "total"
+    t.string "address"
+    t.string "phone"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -34,4 +71,8 @@ ActiveRecord::Schema.define(version: 2020_05_08_121235) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "item_histories", "menu_items"
+  add_foreign_key "menu_items", "categories"
+  add_foreign_key "menu_items", "orders"
+  add_foreign_key "orders", "users"
 end

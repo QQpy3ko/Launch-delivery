@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :orders
+
   validates :name, presence: true, length: {maximum: 50}
   validates :phone, presence: true, length: {maximum: 15}
   validates_format_of :phone, :with => /\A^[\[\]\d \+\-\(\)]*$\Z/, message: "Invalid symbols. Avoid characters, please!"
