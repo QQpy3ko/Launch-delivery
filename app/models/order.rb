@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
   belongs_to :user
-  has many :menu_items
+  has_and_belongs_to_many :menu_items
 
   after_initialize :init, :if => :new_record?
 

@@ -1,0 +1,29 @@
+p#notice = notice
+
+h3 class="text-center"  Full menu
+
+= link_to 'Add position', new_admin_menu_item_path, class: 'btn btn-success float-right mb-3'
+
+table.table.table-striped
+  thead
+    tr
+      th Title
+      th Category
+      th Price
+      th Available?
+      th
+      th
+      th
+
+  tbody
+    - @menu_items.each do |menu_item|
+      tr
+        td = menu_item.title
+        td = menu_item.category_id
+        td = number_to_currency(menu_item.price)
+        td = menu_item.active
+        td = link_to 'Show', admin_menu_item_path(menu_item), class: 'btn btn-outline-primary btn-sm'
+        td = link_to 'Edit', edit_admin_menu_item_path(menu_item), class: 'btn btn-outline-success btn-sm'
+        td = link_to 'Delete', admin_menu_item_path(menu_item), data: { confirm: 'Are you sure?!' }, method: :delete, class: 'btn btn-outline-danger btn-sm'
+
+br

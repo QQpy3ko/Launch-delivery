@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong  Menu position
+p
+  strong Title:
+  = @menu_item.title
+p
+  strong Category:
+  = @menu_item.category_id
+p
+  strong Price:
+  = number_to_currency(@menu_item.price)
+p
+  strong Available:
+  = @menu_item.active
+
+=> link_to 'Edit', admin_menu_items_path(@menu_item), class: 'btn btn-success mb-3'
+br
+
+=< link_to 'To the full menu', admin_menu_items_path, class: 'btn btn-outline-secondary'

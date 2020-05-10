@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_09_202514) do
+ActiveRecord::Schema.define(version: 2020_05_10_005535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -37,11 +37,14 @@ ActiveRecord::Schema.define(version: 2020_05_09_202514) do
     t.decimal "price"
     t.boolean "active"
     t.bigint "category_id", null: false
-    t.bigint "order_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_menu_items_on_category_id"
-    t.index ["order_id"], name: "index_menu_items_on_order_id"
+  end
+
+  create_table "menu_items_orders", id: false, force: :cascade do |t|
+    t.bigint "menu_item_id", null: false
+    t.bigint "order_id", null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -73,6 +76,5 @@ ActiveRecord::Schema.define(version: 2020_05_09_202514) do
 
   add_foreign_key "item_histories", "menu_items"
   add_foreign_key "menu_items", "categories"
-  add_foreign_key "menu_items", "orders"
   add_foreign_key "orders", "users"
 end
