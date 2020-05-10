@@ -31,5 +31,7 @@ module LaunchDelivery
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    I18n.available_locales = [:en, :ru]
+    I18n.default_locale = I18n.available_locales.first
   end
 end
