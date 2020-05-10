@@ -1,15 +1,19 @@
 <template>
-  <div id="app">
+  <div>
     <p>{{ message }}</p>
   </div>
 </template>
 
 <script>
+
 export default {
   data: function () {
     return {
-      message: "Hello Vue!"
+      message: new Date
     }
+  },
+   components: {
+    MenuItems
   }
 }
 </script>
