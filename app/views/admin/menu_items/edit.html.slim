@@ -2,4 +2,12 @@ h3 class="text-center" Edit menu position
 
 == render 'form'
 
+- if @menu_item.photo.attached?
+  = form_for @menu_item, url: admin_menu_item_path(@menu_item) do |f|
+    = f.fields_for :photo_attachment_attributes do | photo_form |
+      = photo_form.hidden_field :id, value: @menu_item.photo_attachment.id
+      = photo_form.hidden_field :_destroy, value: true
+    = f.submit "Delete photo"
+  br
+
 =< link_to 'To the full menu', admin_menu_items_path, class: 'btn btn-outline-secondary ml-2'

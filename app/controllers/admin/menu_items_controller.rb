@@ -3,7 +3,7 @@ class Admin::MenuItemsController < AdminController
   before_action :set_menu_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @menu_items = MenuItem.lazy_attach_and_ordered_by_category
+    @menu_items = MenuItem.lazy_attach_and_ordered
   end
 
   def show
@@ -36,7 +36,7 @@ class Admin::MenuItemsController < AdminController
     end
     respond_to do |format|
       if @menu_item.update(menu_item_params)
-        format.html { redirect_to ['admin', @menu_item], notice: 'Menu position is added.' }
+        format.html { redirect_to ['admin', @menu_item], notice: 'Menu position is updated.' }
       else
         format.html { render :edit, notice: 'An error occurred during the update' }
       end
@@ -60,6 +60,6 @@ class Admin::MenuItemsController < AdminController
   end
 
   def menu_item_params
-    params.require(:menu_item).permit(:title, :active, :price, :category_id, :photo)
+    params.require(:menu_item).permit(:title, :active, :price, :category_id, :photo, photo_attachment_attributes: [:id, :_destroy])
   end
 end
