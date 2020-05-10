@@ -3,9 +3,8 @@ class Admin::MenuItemsController < AdminController
   before_action :set_menu_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @menu_items = MenuItem.all
+    @menu_items = MenuItem.lazy_attach_and_ordered_by_category
   end
-
 
   def show
   end
@@ -57,6 +56,6 @@ class Admin::MenuItemsController < AdminController
   end
 
   def menu_item_params
-    params.require(:menu_item).permit(:title, :active, :price, :category_id)
+    params.require(:menu_item).permit(:title, :active, :price, :category_id, :photo)
   end
 end
