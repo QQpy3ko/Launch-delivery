@@ -2,8 +2,9 @@ p#notice = notice
 
 p
   strong Menu position
-p
-  = image_tag(@menu_item.photo, size: '200x150')
+- if @menu_item.photo.attached?
+  p
+    = image_tag(@menu_item.photo, size: '200x150')
 p
   strong Title:
   = @menu_item.title

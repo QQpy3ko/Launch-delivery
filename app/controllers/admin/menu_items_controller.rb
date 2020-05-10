@@ -30,6 +30,10 @@ class Admin::MenuItemsController < AdminController
   end
 
   def update
+    if @menu_item.update(menu_item_params)
+      @menu_item.item_histories.build(price: @menu_item.price, active: @menu_item.active)
+      @menu_item.save
+    end
     respond_to do |format|
       if @menu_item.update(menu_item_params)
         format.html { redirect_to ['admin', @menu_item], notice: 'Menu position is added.' }
