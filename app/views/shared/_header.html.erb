@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
   <div class="container">
     <%= link_to "Tarragon&Sulguni launch delivery", root_path, class: "navbar-brand" %>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <% if user_signed_in? %>
+      <% if user_signed_in? && !current_user.admin %>
         <button type="button" class="btn btn-light btn-sm mr-2">Your shipping address and phone in profile -></button>
-      <% else %>
+      <% elsif !user_signed_in? %>
         <button type="button" class="btn btn-light btn-sm mr-2">Easy sign up to make orders -></button>
       <% end %>
       <ul class="navbar-nav">

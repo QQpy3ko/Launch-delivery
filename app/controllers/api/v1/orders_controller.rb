@@ -7,7 +7,7 @@ class Api::V1::OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         @message = { message_text: 'Order successfully created'}
-        format.json { render status: :ok }
+        format.json { render :create, status: :ok }
       else
         format.json { render :unauthorized, status: 401 }
       end

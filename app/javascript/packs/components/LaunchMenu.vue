@@ -3,22 +3,28 @@
     <h3>
       Today's Menu
     </h3>
+    <details open>
+      <p>
+      <summary>Show/hide order section</summary>
+      <p>
+        Choose three items: one of the first courses, one of the second courses, and one of the drinks.
+      <p>
+        Selected positions:
+          <li v-for="menu_position of showSelected">{{ menu_position  }}$</li>
+      <p>
+        Order total: {{ orderTotal + '$' }}
+      </p>
+      <p>
+        <b-button size="sm" @click="clearSelected">Clear selection</b-button>
+      </p>
+      <p>
+        <b-button size="sm" variant="success" @click="createOrder">Confirm order</b-button>
+      </p>
+    </details>
+    <br>
     <div class="text-danger" v-if="error">{{ error }}</div>
-    <div class="text-success" v-if="orderSuccessMessage">{{ orderSuccessMessage }}</div>
-    <p>
-      Choose three items: one of the first courses, one of the second courses, and one of the drinks.
-    <p>
-      Selected positions:
-        <li v-for="menu_position of showSelected">{{ menu_position  }}$</li>
-    <p>
-      Order total: {{ orderTotal + '$' }}
-    </p>
-    <p>
-      <b-button size="sm" @click="clearSelected">Clear selection</b-button>
-    </p>
-    <p>
-      <b-button size="sm" variant="success" @click="createOrder">Confirm order</b-button>
-    </p>
+    <div class="text-success" v-if="orderSuccessMessage">{{ orderSuccessMessage.message_text }}</div>
+    <br>
     <b-table
       ref="selectableTable"
       selectable
@@ -124,7 +130,7 @@ export default {
           .catch(error => { this.setError(error, 'Error! Something went wrong')
           });
       } else {
-        this.error = 'Please choose exactly 3 items from different courses'
+        this.error = 'Please choose 3 items from different courses'
       }
     },
     setError(error, text) {
@@ -137,5 +143,11 @@ export default {
 <style scoped>
 h3 {
   text-align: center;
+}
+summary {
+  border-radius: 5px;
+  display: inline;
+  padding: 8px 10px;
+  background: -webkit-linear-gradient(top, #f3f3f3 50%, #e6e6e6 50%);
 }
 </style>
