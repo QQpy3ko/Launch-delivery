@@ -3,16 +3,21 @@
     <h3>
       Today's Menu
     </h3>
+    <div class="text-danger" v-if="error">{{ error }}</div>
+    <div class="text-success" v-if="orderSuccessMessage">{{ orderSuccessMessage }}</div>
     <p>
       Choose three items: one of the first courses, one of the second courses, and one of the drinks.
     <p>
       Selected positions:
-        <li v-for="menu_position of selectedItems">{{ menu_position  }}$</li>
+        <li v-for="menu_position of showSelected">{{ menu_position  }}$</li>
     <p>
-      Order total: {{ orderTotal }}
+      Order total: {{ orderTotal + '$' }}
     </p>
     <p>
       <b-button size="sm" @click="clearSelected">Clear selection</b-button>
+    </p>
+    <p>
+      <b-button size="sm" variant="success" @click="createOrder">Confirm order</b-button>
     </p>
     <b-table
       ref="selectableTable"
@@ -69,9 +74,11 @@ export default {
       items: [],
       selectMode: 'multi',
       selected: [],
-      selectedItems: [],
+      showSelected: [],
       orderTotal: '',
-      orderValidity: false
+      orderValidity: false,
+      orderSuccessMessage: '',
+      error: ''
     }
   },
   created() {
@@ -81,11 +88,19 @@ export default {
         console.log(response.data);
         this.items = response.data;
       })
-      .catch(e => {
-        console.log(e);
+      .catch(error => { this.setError(error, 'Error! Something went wrong')
       });
   },
   methods: {
+    onRowSelected(items) {
+        this.selected = items;
+        this.showSelected = this.selected.map(element => `${element.title} - ${element.price}`);
+        this.orderTotal = this.selected.reduce((a, element)  =>  a + Number(element.price), 0).toFixed(2)
+        this.IsOrderValid(this.selected)
+      },
+    clearSelected() {
+      this.$refs.selectableTable.clearSelected()
+    },
     IsOrderValid(array_of_selected) {
       let categories_list = array_of_selected.map(element => element.category_id)
       if (categories_list.length === new Set(categories_list).size && Object.keys(array_of_selected).length === 3 ) {
@@ -93,14 +108,27 @@ export default {
       } else { this.orderValidity = false;
       }
     },
-    onRowSelected(items) {
-        this.selected = items;
-        this.selectedItems = this.selected.map(element => `${element.title} - ${element.price}`);
-        this.orderTotal = String((this.selected.reduce((a, element)  =>  a + Number(element.price), 0)).toFixed(2))+'$'
-        this.IsOrderValid(this.selected)
-      },
-    clearSelected() {
-      this.$refs.selectableTable.clearSelected()
+    createOrder() {
+      this.orderSuccessMessage = ''
+      this.error = ''
+      if (this.orderValidity === true) {
+        axios
+          .post("/api/v1/orders", {
+            order: {menu_item_ids: this.selected.map(element => element.id),
+            total: this.orderTotal}
+          })
+          .then(response => {
+            this.orderSuccessMessage = response.data
+            this.clearSelected()
+          })
+          .catch(error => { this.setError(error, 'Error! Something went wrong')
+          });
+      } else {
+        this.error = 'Please choose exactly 3 items from different courses'
+      }
+    },
+    setError(error, text) {
+      this.error = (error.response && error.response.data && error.response.data.error) || text
     }
   }
 }
