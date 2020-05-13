@@ -1,27 +1,38 @@
 <template>
   <div>
-    <h3>
-      Today's Menu
-    </h3>
-    <details open>
-      <p>
-      <summary>Show/hide order section</summary>
-      <p>
-        Choose three items: one of the first courses, one of the second courses, and one of the drinks.
-      <p>
-        Selected positions:
-          <li v-for="menu_position of showSelected">{{ menu_position  }}$</li>
-      <p>
-        Order total: {{ orderTotal + '$' }}
-      </p>
-      <p>
-        <b-button size="sm" @click="clearSelected">Clear selection</b-button>
-      </p>
-      <p>
-        <b-button size="sm" variant="success" @click="createOrder">Confirm order</b-button>
-      </p>
-    </details>
-    <br>
+      <h3 v-if="this.menu_date == '' || this.menu_date == new Date().toJSON().slice(0,10)">Today's Menu</h3>
+      <h3 v-else>Menu for {{ this.menu_date }}</h3>
+    <b-row align-v="start">
+      <b-col>
+        <details open>
+          <p>
+          <summary>Show/hide order section</summary>
+          <p>
+            Choose three items: one of the first courses, one of the second courses, and one of the drinks.
+          <p>
+            Selected positions:
+              <li v-for="menu_position of showSelected">{{ menu_position  }}$</li>
+          <p v-if="orderTotal">
+            Order total: {{ orderTotal + '$' }}
+          </p>
+          <p>
+            <b-button size="sm" @click="clearSelected">Clear selection</b-button>
+          </p>
+          <p>
+            <b-button size="sm" variant="success" @click="createOrder">Confirm order</b-button>
+          </p>
+        </details>
+      </b-col>
+
+      <b-col align-h="end">
+        <div>
+          <Datepicker
+            @EmitDateFromDatepicker="useDateFromDatepicker($event)"
+          />
+        </div>
+      </b-col>
+    </b-row>
+
     <div class="text-danger" v-if="error">{{ error }}</div>
     <div class="text-success" v-if="orderSuccessMessage">{{ orderSuccessMessage.message_text }}</div>
     <br>
@@ -66,38 +77,43 @@
 
 <script>
 import axios from "axios";
+import Datepicker from "./Datepicker.vue";
 
 export default {
   data() {
     return {
-      sortBy: 'category_id',
-      sortDesc: false,
       fields: [{ key: 'photo_url', label: '' },
                 'title',
                 { key: 'category_id', label: 'Category', sortable: true },
-                { key: 'price', label: 'Cost, $'},
-                'selected'],
+                { key: 'history_price', label: 'Cost, $'},
+                { key: 'selected'}], // last index is used for hide-show 'selected' column
+      menu_date: '',
       items: [],
+      sortBy: 'category_id',
+      sortDesc: false,
       selectMode: 'multi',
       selected: [],
       showSelected: [],
       orderTotal: '',
       orderValidity: false,
       orderSuccessMessage: '',
-      error: ''
+      error: '',
     }
   },
-  created() {
-    return axios
-      .get("/api/v1/launch_menu")
-      .then(response => {
-        console.log(response.data);
-        this.items = response.data;
-      })
-      .catch(error => { this.setError(error, 'Error! Something went wrong')
-      });
+  components: {
+    Datepicker
   },
   methods: {
+    fetchMenu (date) {
+      return axios
+        .get(`/api/v1/launch_menu/${date}`)
+        .then(response => {
+          console.log(response.data);
+          this.items = response.data;
+        })
+        .catch(error => { this.setError(error, 'Error! Something went wrong')
+        });
+    },
     onRowSelected(items) {
         this.selected = items;
         this.showSelected = this.selected.map(element => `${element.title} - ${element.price}`);
@@ -133,9 +149,25 @@ export default {
         this.error = 'Please choose 3 items from different courses'
       }
     },
+    useDateFromDatepicker(date) {
+      if (date !== new Date().toJSON().slice(0,10)) {
+        this.fields[this.fields.length - 1].thClass = 'd-none';
+        this.fields[this.fields.length - 1].tdClass = 'd-none';
+        this.clearSelected();
+      } else {
+        this.fields[this.fields.length - 1].thClass = 'table-cell';
+        this.fields[this.fields.length - 1].tdClass = 'table-cell';
+      }
+      this.menu_date = date;
+      this.fetchMenu(date);
+    },
     setError(error, text) {
       this.error = (error.response && error.response.data && error.response.data.error) || text
-    }
+    },
+  },
+
+  created() {
+    this.fetchMenu(this.menu_date)
   }
 }
 </script>
