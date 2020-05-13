@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label for="datepicker" >Menu for past dates</label>
+    <label for="datepicker" >Menu for past dates:</label>
     <b-form-datepicker id="datepicker" :min="min" :max="max" locale="en" v-model="value" class="mb-2" @input="emitDateToParent"></b-form-datepicker>
   </div>
 </template>

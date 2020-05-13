@@ -11,7 +11,7 @@
         = link_to "Change today's menu", 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
   - if current_user && !current_user.admin
       - if Order.where("user_id = ?", current_user.id).count > 0
-        | You have actual orders!
+        .span class="text-success" You have actual orders!
       ul class="nav mt-2 mb-3"
         li class="nav-item"
           = link_to 'Orders history', 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
