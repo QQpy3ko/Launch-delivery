@@ -1,0 +1,38 @@
+p#notice = notice
+
+h3 class="text-center"
+  = "Orders "
+  - if @order_access == "admin"
+    = "for #{@requested_day}"
+  - else
+    = "history"
+
+table.table.table-bordered
+  thead
+    -if @order_access == "admin"
+      tr
+        th Order date
+        th Customer name
+        th Shipping address
+        th Customer phone
+        th Total
+
+  tbody
+    - @orders.each do |order|
+      -if @order_access == "admin"
+        tr.bg-light
+          td.font-weight-bold = "Time: #{order.created_at.to_formatted_s(:db)}"
+          td = "Vasa"
+          td = order.address
+          td = order.phone
+          td = "Total: #{order.total}$"
+      -if @order_access == "customer"
+        tr.bg-light
+          td colspan = 4 = "Time: #{order.created_at.to_formatted_s(:db)}"
+          td = "Total: #{order.total}$"
+      - order.menu_items.each do |order_item|
+        tr
+          td colspan = 4 = order_item.title
+          td = order_item.price
+
+= link_to 'Back', "http://yandex.ru", class: 'btn btn-outline-primary btn-sm'

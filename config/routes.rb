@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :orders, only: :index
+
   devise_for :users
 end

@@ -4,16 +4,16 @@
       li class="nav-item"
         = link_to "Check today's orders (number: #{Order.where(created_at: Date.today.all_day).count})", 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
       li class="nav-item"
-        = link_to 'Orders history', 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
+        = link_to 'Orders history', orders_path, class: 'btn btn-outline-primary mr-2'
       li class="nav-item"
         = link_to 'Users list', 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
       li class="nav-item"
-        = link_to "Change today's menu", 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
+        = link_to "Change today's menu", admin_menu_items_path, class: 'btn btn-outline-primary mr-2'
   - if current_user && !current_user.admin
       - if Order.where("user_id = ?", current_user.id).count > 0
         .span class="text-success" You have actual orders!
       ul class="nav mt-2 mb-3"
         li class="nav-item"
-          = link_to 'Orders history', 'http://yandex.ru', class: 'btn btn-outline-primary mr-2'
+          = link_to 'Orders history', orders_path, class: 'btn btn-outline-primary mr-2'
   - if !current_user
     | Sign in to make an order.
