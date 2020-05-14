@@ -1,0 +1,10 @@
+<h3 class="text-center">Orders summary per day</h3>
+<%= month_calendar events: @orders  do |date, orders| %>
+  <%= content_tag(:span, date.day, class: "day-date") %>
+  <br>
+  <%= content_tag(:span, "number: #{orders.length}", class: "hide-for-future") %>
+  <br>
+  <%= content_tag(:span, "day total: #{orders.sum{ |e| e[:total]}}$", class: "hide-for-future") %>
+  <br>
+  <%= link_to('to orders', orders_path(:date => date), class: "hide-for-future") %>
+<% end %>

@@ -1,0 +1,26 @@
+.simple-calendar {
+  .calendar-title {
+    font-weight: bold;
+  }
+  .wday-title {
+    text-align:center;
+    color: slateblue;
+  }
+  .day {
+    text-align:center;
+    .day-date {
+      font-weight: bold
+    }
+  }
+  .prev-month, .next-month {
+    .day-date {
+    color: lightgray
+    }
+  }
+  .future {
+    color: grey;
+    .hide-for-future {
+      display: none
+    }
+  }
+ }

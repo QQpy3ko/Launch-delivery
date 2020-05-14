@@ -31,12 +31,13 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rails-i18n', '~> 6.0.0'
 
 gem 'devise'
+
 gem 'actionmailer'
+gem 'aws-sdk-s3', require: false
 
 gem 'slim-rails'
 gem 'simple_form'
-
-gem 'aws-sdk-s3', require: false
+gem "simple_calendar", "~> 2.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

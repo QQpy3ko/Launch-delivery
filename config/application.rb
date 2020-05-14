@@ -33,5 +33,6 @@ module LaunchDelivery
     config.generators.system_tests = nil
     I18n.available_locales = [:en, :ru]
     I18n.default_locale = I18n.available_locales.first
+    config.beginning_of_week = :sunday
   end
 end

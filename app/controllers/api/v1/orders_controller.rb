@@ -2,7 +2,10 @@ class Api::V1::OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @order = Order.new(order_params.merge({user_id: current_user.id, address: current_user.default_address, phone: current_user.phone}))
+    @order = Order.new(order_params.merge({user_id: current_user.id,
+                                          address: current_user.default_address,
+                                          phone: current_user.phone,
+                                          name: current_user.name}))
 
     respond_to do |format|
       if @order.save
@@ -27,6 +30,6 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:total, {menu_item_ids: []}, :user_id, :address, :phone)
+    params.require(:order).permit(:total, {menu_item_ids: []}, :user_id, :address, :phone, :name)
   end
 end

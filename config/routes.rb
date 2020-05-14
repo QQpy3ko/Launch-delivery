@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :menu_items
+    get 'orders-calendar', to: "orders_calendar#calendar"
   end
 
   namespace :api do

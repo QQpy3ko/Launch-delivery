@@ -22,7 +22,7 @@ table.table.table-bordered
       -if @order_access == "admin"
         tr.bg-light
           td.font-weight-bold = "Time: #{order.created_at.to_formatted_s(:db)}"
-          td = "Vasa"
+          td = order.name
           td = order.address
           td = order.phone
           td = "Total: #{order.total}$"
@@ -30,9 +30,8 @@ table.table.table-bordered
         tr.bg-light
           td colspan = 4 = "Time: #{order.created_at.to_formatted_s(:db)}"
           td = "Total: #{order.total}$"
-      - order.menu_items.each do |order_item|
+      - order.menu_items.order("category_id ASC").each do |order_item|
         tr
-          td colspan = 4 = order_item.title
+          td = Category.find(order_item.category_id).title
+          td colspan = 3 = order_item.title
           td = order_item.price
-
-= link_to 'Back', "http://yandex.ru", class: 'btn btn-outline-primary btn-sm'

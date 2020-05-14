@@ -1,13 +1,13 @@
 class Api::V1::LaunchMenuController < ApplicationController
   def index
+    @filter_till_next_day = params[:date] ? Date.parse(params[:date]).next_day : Date.today.next_day
 
-    @tomorrow_for_comparing = params[:date] ? Date.parse(params[:date]).next_day : Date.today.next_day
-
-    @menu_items_with_histories = MenuItem.includes(:item_histories).
-                                          where("item_histories.created_at < ?", @tomorrow_for_comparing).
-                                          order("item_histories.created_at").
-                                          where("item_histories.active = ?", true).
-                                          references(:item_histories)
+    @menu_items_with_histories = MenuItem.lazy_attach
+                                        .includes(:item_histories)
+                                        .where("item_histories.created_at < ?", @filter_till_next_day)
+                                        .order("item_histories.created_at")
+                                        .where("item_histories.active = ?", true)
+                                        .references(:item_histories)
 
     @menu_items_with_histories = @menu_items_with_histories.map do | i |
       if i.photo.present?
