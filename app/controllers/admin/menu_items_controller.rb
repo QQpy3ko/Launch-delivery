@@ -1,5 +1,5 @@
 class Admin::MenuItemsController < AdminController
-
+  before_action :authenticate_user!
   before_action :set_menu_item, only: [:show, :edit, :update, :destroy]
 
   def index

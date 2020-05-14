@@ -3,6 +3,20 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  private
+
+  def authorized?
+    user_signed_in?
+  end
+
+  def handle_unauthorized
+    unless authorized?
+      respond_to do |format|
+        format.json { render :unauthorized, status: 401 }
+      end
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

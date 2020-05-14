@@ -34,4 +34,4 @@ table.table.table-bordered
         tr
           td = Category.find(order_item.category_id).title
           td colspan = 3 = order_item.title
-          td = order_item.price
+          td = ItemHistory.where("menu_item_id = ?", order_item.id).where("created_at < ?", order.created_at).last.price
