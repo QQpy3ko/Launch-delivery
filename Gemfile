@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rails-i18n', '~> 6.0.0'
 
 gem 'devise'
+gem 'devise_token_auth'
 
 gem 'actionmailer'
 gem 'aws-sdk-s3', require: false

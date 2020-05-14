@@ -1,6 +1,6 @@
 module Api
   module V1
-    class  OrdersController < ApplicationController
+    class  OrdersController < WebApplicationController
       before_action :authenticate_user!
 
       def create

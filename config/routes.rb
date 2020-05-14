@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+
   root 'pages#menu'
 
   namespace :admin do
@@ -13,9 +15,13 @@ Rails.application.routes.draw do
                                 :as => "launch_menu_date"
       resources :orders, defaults: { format: :json }, only: :create
     end
+    namespace :outer do
+      mount_devise_token_auth_for 'User', at: 'auth',
+        controllers: {
+          sessions: 'api/outer/devise_token_auth/sessions'
+        }
+    end
   end
 
   resources :orders, only: :index
-
-  devise_for :users
 end

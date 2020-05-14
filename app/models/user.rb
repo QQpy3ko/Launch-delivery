@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  include DeviseTokenAuth::Concerns::ActiveRecordSupport
+  include DeviseTokenAuth::Concerns::User
+
   has_many :orders
 
   validates :name, presence: true, length: {maximum: 50}

@@ -1,4 +1,4 @@
-class OrdersController < ApplicationController
+class OrdersController < WebApplicationController
   before_action :authenticate_user!
 
   def index

@@ -9,13 +9,6 @@ feature 'Visitor signs up' do
                                 phone: "+79142343434"}
                             }
 
-  scenario 'with invalid email' do
-    attrs_for_sign_up[:email] = "Alex"
-    sign_up_with *attrs_for_sign_up.values
-
-    expect(page).to have_content('Email is invalid')
-  end
-
   scenario 'with blank password' do
     attrs_for_sign_up[:password] = ""
     sign_up_with *attrs_for_sign_up.values

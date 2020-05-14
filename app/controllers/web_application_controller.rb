@@ -1,11 +1,22 @@
-class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session, if: :devise_token_auth?
+class WebApplicationController < ApplicationController
 
-  def devise_token_auth?
-    controller_path.start_with?('devise_token_auth/')
-  end
+  protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  private
+
+  def authorized?
+    user_signed_in?
+  end
+
+  def handle_unauthorized
+    unless authorized?
+      respond_to do |format|
+        format.json { render :unauthorized, status: 401 }
+      end
+    end
+  end
 
   protected
 

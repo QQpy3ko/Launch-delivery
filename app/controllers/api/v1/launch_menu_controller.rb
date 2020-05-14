@@ -1,6 +1,6 @@
 module Api
   module V1
-    class LaunchMenuController < ApplicationController
+    class LaunchMenuController < WebApplicationController
       def index
         @filter_till_next_day = params[:date] ? Date.parse(params[:date]).next_day : Date.today.next_day
 
