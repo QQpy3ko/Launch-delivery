@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :orders, defaults: { format: :json }, only: :create
     end
     namespace :outer do
+      get 'orders', to: "orders#index"
       mount_devise_token_auth_for 'User', at: 'auth',
         controllers: {
           sessions: 'api/outer/devise_token_auth/sessions'

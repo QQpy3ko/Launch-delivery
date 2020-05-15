@@ -19,7 +19,7 @@ module Api
           end
         end
 
-        render json: @menu_items_with_histories.to_json
+        render json: @menu_items_with_histories
       end
     end
   end
