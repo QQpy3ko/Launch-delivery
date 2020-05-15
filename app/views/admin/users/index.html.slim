@@ -1,0 +1,20 @@
+p#notice = notice
+
+h3.text-center Users list
+
+table.table.table-striped
+  thead
+    tr
+      th Name
+      th Email
+      th Phone
+      th Address
+      th Registered
+  tbody
+  - @users.each do |user|
+    tr
+      td = user.name
+      td = user.email
+      td = user.phone
+      td = user.default_address
+      td = user.created_at.to_formatted_s(:db)

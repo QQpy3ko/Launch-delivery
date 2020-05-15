@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :menu_items
+    resources :users, only: :index
     get 'orders-calendar', to: "orders_calendar#calendar"
   end
 
