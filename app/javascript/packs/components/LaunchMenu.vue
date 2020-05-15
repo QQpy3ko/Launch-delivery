@@ -1,9 +1,9 @@
 <template>
   <div>
-      <h3 v-if="this.menu_date == '' || this.menu_date == new Date().toJSON().slice(0,10)">Today's Menu</h3>
-      <h3 v-else>Menu for {{ this.menu_date }}</h3>
+      <h3 v-if="this.menu_date == '' || this.menu_date == new Date().toJSON().slice(0,10)">Today's Launch Menu</h3>
+      <h3 v-else>Launch Menu for {{ this.menu_date }}</h3>
     <b-row align-v="start">
-      <b-col>
+      <b-col cols="12" sm="8">
         <details open>
           <p>
           <summary>Show/hide order section</summary>
@@ -24,8 +24,8 @@
         </details>
       </b-col>
 
-      <b-col align-h="end">
-        <div>
+      <b-col cols="12" sm="4" align-h="end">
+        <div class="mt-1">
           <Datepicker
             @EmitDateFromDatepicker="useDateFromDatepicker($event)"
           />
@@ -86,7 +86,7 @@ export default {
                 'title',
                 { key: 'category_id', label: 'Category', sortable: true },
                 { key: 'history_price', label: 'Cost, $'},
-                { key: 'selected'}], // last index is used for hide-show 'selected' column
+                { key: 'selected', label: 'Select'}], // Select - last, index is used for hide-show 'selected' column
       menu_date: '',
       items: [],
       sortBy: 'category_id',

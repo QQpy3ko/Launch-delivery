@@ -6,6 +6,9 @@
     text-align:center;
     color: slateblue;
   }
+  .hide-for-future {
+    text-align:left !important;
+  }
   .day {
     text-align:center;
     .day-date {
@@ -23,4 +26,4 @@
       display: none
     }
   }
- }
+}
