@@ -30,8 +30,8 @@ table.table.table-bordered
         tr.bg-light
           td colspan = 4 = "Time: #{order.created_at.to_formatted_s(:db)}"
           td = "Total: #{order.total}$"
-      - order.menu_items.order("category_id ASC").each do |order_item|
+      - order.menu_items.each do |order_item|
         tr
-          td = Category.find(order_item.category_id).title
+          td = order_item.category.title
           td colspan = 3 = order_item.title
-          td = ItemHistory.where("menu_item_id = ?", order_item.id).where("created_at < ?", order.created_at).last.price
+          td = order_item.item_histories.where("created_at < ?", order.created_at).last.price
