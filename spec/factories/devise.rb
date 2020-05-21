@@ -1,22 +1,21 @@
 FactoryBot.define do
   factory :user do
-    id {1}
+    name { Faker::Name.name }
+    phone { Faker::PhoneNumber.cell_phone }
+    default_address { Faker::Address.full_address }
     password { "password1234" }
-    email { "testuanna1@example.com" }
-    name { "Testuanna" }
-    phone { "+11134343445" }
+    email { Faker::Internet.email }
   end
 
   factory :admin, class: User do
-    id {2}
     password { "password1234" }
     email { "adminus@example.com" }
     name { "Volodmin" }
     phone { "+11234343445" }
+    admin { true }
   end
 
   factory :second_user, class: User do
-    id {3}
     password { "pass1234asd" }
     email { "testivan123@example.com" }
     name { "Testivan" }

@@ -12,9 +12,7 @@ module Api
         private
 
         def require_admin
-          puts "PP#{params[:email]}"
           user = User.where("email LIKE ?", params[:email]).first
-          puts "UMAIL +++ #{user.email}"
           if !user.admin
             head :unauthorized
           end

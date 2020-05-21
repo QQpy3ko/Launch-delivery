@@ -3,7 +3,6 @@ FactoryBot.define do
     title { "MyString" }
     price { "9.99" }
     active { false }
-    category { nil }
-    order { nil }
+    category
   end
 end
