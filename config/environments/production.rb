@@ -106,4 +106,7 @@ Rails.application.configure do
 
   # Blocked host work around for Heroku
   config.hosts = nil
+
+  config.action_mailer.default_url_options = { host: ENV['LAUNCH_DELIVERY_PRODUCTION_HOST'] }
+  routes.default_url_options[:host] = ENV['LAUNCH_DELIVERY_PRODUCTION_HOST']
 end
