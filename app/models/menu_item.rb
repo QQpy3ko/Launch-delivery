@@ -14,6 +14,12 @@ class MenuItem < ApplicationRecord
 
   scope :with_attach_info, -> { with_attached_photo }
   scope :with_attach_info_and_ordered, -> { with_attached_photo.order("category_id asc, title") }
+  scope :with_histories, -> (till_day) { includes(:item_histories)
+                                        .where("item_histories.created_at < ?", till_day)
+                                        .order("item_histories.created_at")
+                                        .where("item_histories.active = ?", true)
+                                        .references(:item_histories)
+                                        }
 
   def acceptable_image
     return unless photo.attached?

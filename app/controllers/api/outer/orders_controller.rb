@@ -1,7 +1,7 @@
 class Api::Outer::OrdersController < ActionController::API
 
   def index
-    @orders = Order.where(created_at: Date.today.midnight..Date.today.end_of_day).order("id desc")
+    @orders = Order.where(created_at: Date.today.midnight..Date.today.end_of_day).ordered
 
     @orders = @orders.map do | o |
       items = {items: {}}

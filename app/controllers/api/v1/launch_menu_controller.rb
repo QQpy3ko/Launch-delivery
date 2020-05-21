@@ -5,12 +5,7 @@ module Api
       def index
         @filter_till_next_day = params[:date] ? Date.parse(params[:date]).next_day : Date.today.next_day
 
-        @menu_items_with_histories = MenuItem.with_attach_info
-                                            .includes(:item_histories)
-                                            .where("item_histories.created_at < ?", @filter_till_next_day)
-                                            .order("item_histories.created_at")
-                                            .where("item_histories.active = ?", true)
-                                            .references(:item_histories)
+        @menu_items_with_histories = MenuItem.with_attach_info.with_histories(@filter_till_next_day)
 
         @menu_items_with_histories = @menu_items_with_histories.map do | i |
           if i.photo.attached?
