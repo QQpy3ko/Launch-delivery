@@ -9,9 +9,6 @@ class MenuItem < ApplicationRecord
   validates_numericality_of :price, :greater_than => 0.0
   validate :acceptable_image
 
-  has_one :last_history, -> { order('id DESC') }, class_name: 'ItemHistory'
-  has_one :history_till_including,  -> (date) { where("created_at <= ?", date) }, class_name: 'ItemHistory'
-
   scope :with_attach_info, -> { with_attached_photo }
   scope :with_attach_info_and_ordered, -> { with_attached_photo.order("category_id asc, title") }
   scope :with_histories, -> (till_day) { includes(:item_histories)
