@@ -28,6 +28,12 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+#secure dependencies
+gem "actionpack", ">= 6.0.3.1"
+gem "activestorage", ">= 6.0.3.1"
+gem "activesupport", ">= 6.0.3.1"
+gem "websocket-extensions", ">= 0.1.5"
+
 gem 'rails-i18n', '~> 6.0.0'
 
 gem 'devise'
@@ -40,6 +46,7 @@ gem 'active_model_serializers'
 gem 'slim-rails'
 gem 'simple_form'
 gem "simple_calendar", "~> 2.0"
+gem 'bootstrap-sass'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
